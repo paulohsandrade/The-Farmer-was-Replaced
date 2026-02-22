@@ -1,4 +1,11 @@
-import map_light
+HARD_MOVES_WEST_BUSHES = {
+	(0,0): East,
+	(1,0): South,
+	(1,2): South,
+	(1,1): West,
+	(0,1): North,
+	(0,2): North,
+}
 
 HARD_MOVES_3b3 = {
 	(0,0): East,
@@ -86,7 +93,7 @@ def three_spaces(item,amount):
 		for _ in range(2):
 			plant(Entities.Bush)
 			move(North)
-		for _ in range(4):
+		for _ in range(6):
 			while not can_harvest():
 				pass
 			harvest()
@@ -100,14 +107,33 @@ def three_spaces(item,amount):
 		if num_items(item) >= amount:
 			break
 
+def west_bushes(item,amount):
+	global HARD_MOVES_WEST_BUSHES
+	while num_items(item) < amount:
+		while (get_entity_type() != None) and (not can_harvest()):
+			pass
+		harvest()
+		plant(Entities.Bush)
+		move(HARD_MOVES_WEST_BUSHES[get_pos_x(),get_pos_y()])
+
 def map_bushes_hay(item,amount):
 	global HARD_MOVES_3b3
 	while num_items(item) < amount:
 		while (get_entity_type() != None) and (not can_harvest()):
 			pass
 		harvest()
-		if get_pos_x() != 0:
+		if get_pos_x() != 2:
 			plant(Entities.Bush)
+		if get_pos_x() == 2 and get_pos_y() == 2:
+			for i in range(2):
+				move(North)
+				while (get_entity_type() != None) and (not can_harvest()):
+					pass
+				harvest()
+				move(South)
+				while (get_entity_type() != None) and (not can_harvest()):
+					pass
+				harvest()
 		move(HARD_MOVES_3b3[get_pos_x(),get_pos_y()])
 
 def early_carrots(item,amount):
@@ -116,123 +142,88 @@ def early_carrots(item,amount):
 		while (get_entity_type() != None) and (not can_harvest()):
 			pass
 		harvest()
-		if (get_pos_x() == 2 and get_pos_y() == 2):
+		if (get_pos_x() == 0) or (get_pos_x() == 1 and get_pos_y() == 1):
 			if get_ground_type() == Grounds.Grassland:
 				till()
 			plant(Entities.Carrot)
-		elif get_pos_x() == 2 or get_pos_y() == 2:
-			plant(Entities.Bush)
-		elif get_pos_x() == 0:
+		elif get_pos_x() == 2 and get_pos_y() != 0:
 			pass
 		else:
-			if get_ground_type() == Grounds.Grassland:
-				till()
-			plant(Entities.Carrot)
-		if get_pos_x() == 0 and get_pos_y() == 0:
-			for i in range(2):
+			plant(Entities.Bush)
+		if get_pos_x() == 2 and get_pos_y() == 2:
+			for i in range(8):
 				if i % 2:
-					move(South)
+					move(North)
 					while (get_entity_type() != None) and (not can_harvest()):
 						pass
 					harvest()
 				else:
-					move(North)
+					move(South)
 					while (get_entity_type() != None) and (not can_harvest()):
 						pass
 					harvest()
 		move(HARD_MOVES_3b3[get_pos_x(),get_pos_y()])
 
-def early_bushes(item,amount):
+def trees_and_carrots_3b3(item,amount):
 	global HARD_MOVES_3b3
 	while num_items(item) < amount:
 		while (get_entity_type() != None) and (not can_harvest()):
 			pass
 		harvest()
-		if (get_pos_x() == 2 and get_pos_y() == 2) or (get_pos_x() == 0 and get_pos_y() == 2):
-			if get_ground_type() != Grounds.Grassland:
-				till()
-			plant(Entities.Bush)
-		elif get_pos_x() == 2 or get_pos_y() == 2:
-			if get_ground_type() == Grounds.Grassland:
-				till()
-			plant(Entities.Carrot)
-		elif get_pos_x() == 0:
-			if get_ground_type() == Grounds.Soil:
-				till()
-			pass
-		else:
-			if get_ground_type() == Grounds.Grassland:
-				till()
-			plant(Entities.Bush)
-		if get_pos_x() == 0 and get_pos_y() == 0:
-			for i in range(2):
-				if i % 2:
-					move(South)
-					while (get_entity_type() != None) and (not can_harvest()):
-						pass
-					harvest()
-				else:
-					move(North)
-					while (get_entity_type() != None) and (not can_harvest()):
-						pass
-					harvest()
-		move(HARD_MOVES_3b3[get_pos_x(),get_pos_y()])
-
-def trees_and_carrots(item,amount):
-	global HARD_MOVES_3b3
-	while num_items(item) < amount:
-			while (get_entity_type() != None) and (not can_harvest()):
-				pass
-			harvest()
-			if get_pos_y() == 1 and get_pos_x() != 2:
-				if get_ground_type() == Grounds.Soil:
-					till()
-			elif (get_pos_x() == 0 and get_pos_y() == 2):
-				if get_ground_type() == Grounds.Soil:
-					till()
-				plant(Entities.Tree)
-			else:
-				if get_ground_type() == Grounds.Grassland:
-					till()
-				plant(Entities.Carrot)
-			move(HARD_MOVES_3b3[get_pos_x(),get_pos_y()])
-
-def trees_4b4(item,amount):
-	global HARD_MOVES_4b4
-	while num_items(item) < amount:
-		while (get_entity_type() != None) and (not can_harvest()):
-			pass
-		harvest()
-		if (get_pos_x() + get_pos_y()) % 2 == 0:
-			if get_ground_type() == Grounds.Soil:
-				till()
+		if (get_pos_x() % 2 == 0 and get_pos_y() % 2 == 0) and get_pos_x() == 0:
 			plant(Entities.Tree)
-		elif get_pos_x() == 3 or get_pos_x() == 2:
-			if get_ground_type() == Grounds.Soil:
+		elif (get_pos_x() % 2 == 0 and get_pos_y() % 2 == 0) and get_pos_x() == 2:
+			if get_ground_type() == Grounds.Grassland:
+				pass
+			else:
 				till()
 		else:
 			if get_ground_type() == Grounds.Grassland:
 				till()
-			plant(Entities.Bush)
-		move(HARD_MOVES_4b4[get_pos_x(),get_pos_y()])
+			plant(Entities.Carrot)
+		if get_pos_x() == 2 and get_pos_y() == 2:
+			for i in range(8):
+				if i % 2:
+					move(South)
+					while (get_entity_type() != None) and (not can_harvest()):
+						pass
+					harvest()
+				else:
+					move(North)
+					while (get_entity_type() != None) and (not can_harvest()):
+						pass
+					harvest()
+		move(HARD_MOVES_3b3[get_pos_x(),get_pos_y()])
 
 def trees_and_carrots_4b4(item,amount):
 	global HARD_MOVES_4b4
 	while num_items(item) < amount:
 		while (get_entity_type() != None) and (not can_harvest()):
+			if get_water() < 0.5:
+				use_item(Items.Water)
 			pass
 		harvest()
-		if ((get_pos_x() + get_pos_y()) % 2 == 0) and get_pos_x() < 1:
-			if get_ground_type() == Grounds.Soil:
+		if get_pos_x() == 3 and (get_pos_y() == 0 or get_pos_y() == 3):
+			if get_ground_type() != Grounds.Grassland:
 				till()
+		elif (get_pos_x() + get_pos_y()) % 2 == 0:
 			plant(Entities.Tree)
-		elif get_pos_x() == 3:
-			if get_ground_type() == Grounds.Soil:
-				till()
 		else:
 			if get_ground_type() == Grounds.Grassland:
 				till()
 			plant(Entities.Carrot)
+		if get_pos_x() == 3 and get_pos_y() == 3:
+			for i in range(8):
+				if i % 2:
+					move(South)
+					while (get_entity_type() != None) and (not can_harvest()):
+						pass
+					harvest()
+				else:
+					move(North)
+					while (get_entity_type() != None) and (not can_harvest()):
+						pass
+					harvest()
 		move(HARD_MOVES_4b4[get_pos_x(),get_pos_y()])
 
 def trees_6b6(item,amount):
@@ -258,13 +249,15 @@ def trees_and_carrots_6b6(item,amount):
 	global HARD_MOVES_6b6
 	while num_items(item) < amount:
 		while (get_entity_type() != None) and (not can_harvest()):
+			if get_water() < 0.5:
+				use_item(Items.Water)
 			pass
 		harvest()
-		if ((get_pos_x() + get_pos_y()) % 2 == 0) and get_pos_x() < 1:
+		if (get_pos_x() + get_pos_y()) % 2 == 0:
 			if get_ground_type() == Grounds.Soil:
 				till()
 			plant(Entities.Tree)
-		elif get_pos_x() == 3:
+		elif get_pos_x() == 1 or get_pos_x() == 2:
 			if get_ground_type() == Grounds.Soil:
 				till()
 		else:
@@ -272,3 +265,4 @@ def trees_and_carrots_6b6(item,amount):
 				till()
 			plant(Entities.Carrot)
 		move(HARD_MOVES_6b6[get_pos_x(),get_pos_y()])
+

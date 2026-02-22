@@ -2,7 +2,6 @@ import move_to
 
 def weird_sub(amount):
 	clear()
-	move_to.move_to(4,4)
 	till()
 	use_item(Items.Water)
 	use_item(Items.Water)
@@ -42,6 +41,9 @@ def weird_sub_multi_drones(quant,n):
 							plant(Entities.Tree)
 							if Entities.Grass in get_companion():
 								use_item(Items.Fertilizer)
+								while (get_entity_type() != None) and (not can_harvest()):
+									#use_item(Items.Fertilizer)
+									pass
 							harvest()
 							if num_items(Items.Weird_Substance) > quant:
 								break
@@ -57,8 +59,7 @@ def weird_sub_multi_drones(quant,n):
 	drone_sub(quant,n)
 
 # This is not Vehn's code, but implements the core idea.
-def vehn(amount,BASE = (4,4),iterations=300):
-	substance = get_world_size() * 2**(num_unlocked(Unlocks.Mazes)-1)
+def vehn(amount, BASE = (4,4), substance = get_world_size() * 2**(num_unlocked(Unlocks.Mazes)-1), iterations = 300):
 
 	# Geometry tables
 	OPP = {North: South, East: West,
@@ -170,20 +171,21 @@ def multi_drone_mazes(quant,n):
 
 	def max_farm(quant,n):
 		clear()
-		AMOUNT = n * 2**(num_unlocked(Unlocks.Mazes) - 1)
+		substance = n * 2**(num_unlocked(Unlocks.Mazes) - 1)
 		num_per_axis = get_world_size() // n
 		for i in range(num_per_axis):
 			for j in range(num_per_axis):
 				center = (i*n + n//2, j*n + n//2)
 				def task():
 					move_to.move_to(center[0],center[1])
-					for i in range(5):
-						do_a_flip()
+					if n != get_world_size():
+						for i in range(5):
+							do_a_flip()
 					while num_items(Items.Gold) < quant:
 						current_pos = (get_pos_x(),get_pos_y())
 						move_to.move_to(center[0],center[1])
 						create_maze(n)
-						vehn(quant,center)
+						vehn(quant,center,substance)
 						#harvest()
 				if len(drones) < max_drones()-1:
 					drones.append(spawn_drone(task))
@@ -193,3 +195,7 @@ def multi_drone_mazes(quant,n):
 			if drone != None:
 				wait_for(drone)
 	max_farm(quant,n)
+
+
+# set_world_size(12)
+# weird_sub_multi_drones(600000000000000000000000000,4)

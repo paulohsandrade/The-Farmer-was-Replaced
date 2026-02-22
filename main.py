@@ -6,7 +6,7 @@ import pumpkins
 import polyculture
 import mazes
 import cacti
-import dinos
+from Dinos_2 import dinos
 
 prev_time = 0
 total_sunflower = 0
@@ -16,11 +16,12 @@ total_maze = 0
 total_cacti = 0
 total_dinos = 0
 total_weird = 0
+total_early_farm = 0
 
 #####################
 #   grid size = 1   #
 #####################
-early_farming.early_hay(Items.Hay,105)
+early_farming.early_hay(Items.Hay,100)
 
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Speed,0,prev_time)
 quick_print(unlock_string)
@@ -33,7 +34,7 @@ quick_print(unlock_string)
 #   grid size = 3   #
 #####################
 
-early_farming.three_spaces(Items.Wood,25)
+early_farming.three_spaces(Items.Wood,20)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Expand,1,prev_time)
 quick_print(unlock_string)
 
@@ -41,15 +42,15 @@ quick_print(unlock_string)
 #  grid size = 3x3  #
 #####################
 
-early_farming.map_bushes_hay(Items.Wood,25)
+early_farming.map_bushes_hay(Items.Wood,20)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Speed,1,prev_time)
 quick_print(unlock_string)
 
-early_farming.map_bushes_hay(Items.Wood,55)
+early_farming.map_bushes_hay(Items.Wood,50)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Carrots,0,prev_time)
 quick_print(unlock_string)
 
-early_farming.early_hay(Items.Hay,305)
+early_farming.map_bushes_hay(Items.Hay,300)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Grass,1,prev_time)
 quick_print(unlock_string)
 
@@ -58,15 +59,15 @@ quick_print(unlock_string)
 #####################
 
 early_farming.early_carrots(Items.Carrot,70)
-early_farming.early_bushes(Items.Wood,50)
-early_farming.early_hay(Items.Hay,300)
+early_farming.map_bushes_hay(Items.Wood,50)
+early_farming.map_bushes_hay(Items.Hay,300)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Trees,0,prev_time)
 quick_print(unlock_string)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Trees,1,prev_time)
 quick_print(unlock_string)
 
-early_farming.trees_and_carrots(Items.Carrot,20)
-early_farming.trees_and_carrots(Items.Wood,30)
+early_farming.trees_and_carrots_3b3(Items.Carrot,20)
+early_farming.trees_and_carrots_3b3(Items.Wood,30)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Expand,2,prev_time)
 quick_print(unlock_string)
 
@@ -74,16 +75,16 @@ quick_print(unlock_string)
 #  grid size = 4x4  #
 #####################
 
-early_farming.trees_4b4(Items.Wood,255)
+early_farming.trees_and_carrots_4b4(Items.Wood,250)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Carrots,1,prev_time)
 quick_print(unlock_string)
 
-early_farming.trees_and_carrots_4b4(Items.Carrot,70)
-#early_farming.early_trees(Items.Wood,50)
+early_farming.trees_and_carrots_4b4(Items.Carrot,50)
+early_farming.trees_and_carrots_4b4(Items.Wood,50)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Speed,2,prev_time)
 quick_print(unlock_string)
 
-early_farming.trees_4b4(Items.Wood,385)
+early_farming.trees_and_carrots_4b4(Items.Wood,350)
 early_farming.trees_and_carrots_4b4(Items.Carrot,50)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Expand,3,prev_time)
 quick_print(unlock_string)
@@ -96,38 +97,40 @@ quick_print(unlock_string)
 #  grid size = 6x6  #
 #####################
 
-early_farming.trees_6b6(Items.Wood,1260)
+early_farming.trees_and_carrots_6b6(Items.Wood,1250)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Carrots,2,prev_time)
 quick_print(unlock_string)
 
-early_farming.trees_6b6(Items.Wood,510)
+early_farming.trees_and_carrots_6b6(Items.Wood,500)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Grass,2,prev_time)
 quick_print(unlock_string)
 
-early_farming.trees_and_carrots_6b6(Items.Carrot,600)
-unlock_string, prev_time = unlocking.try_ulock(Unlocks.Sunflowers,1,prev_time)
+early_farming.trees_and_carrots_6b6(Items.Carrot,550)
+unlock_string, prev_time = unlocking.try_ulock(Unlocks.Sunflowers,0,prev_time)
 quick_print(unlock_string)
+total_early_farm += get_time()
 
 start_sunflower = get_time()
-sunflowers.run_sunflowers(1)
+sunflowers.multi_drones_sunflowers()
 end_sunflower = get_time()
 sunflower_time = end_sunflower - start_sunflower
 total_sunflower += sunflower_time
 
-early_farming.trees_6b6(Items.Wood,510)
+early_farm_start = get_time()
+early_farming.trees_and_carrots_6b6(Items.Wood,500)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Fertilizer,0,prev_time)
 quick_print(unlock_string)
 
-early_farming.trees_6b6(Items.Wood,810)
+early_farming.trees_and_carrots_6b6(Items.Wood,800)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Watering,2,prev_time)
 quick_print(unlock_string)
 
-early_farming.trees_and_carrots_6b6(Items.Carrot,580)
+early_farming.trees_and_carrots_6b6(Items.Carrot,500)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Speed,3,prev_time)
 quick_print(unlock_string)
 
-early_farming.trees_6b6(Items.Wood,3800)
-early_farming.trees_and_carrots_6b6(Items.Carrot,580)
+early_farming.trees_and_carrots_6b6(Items.Wood,3700)
+early_farming.trees_and_carrots_6b6(Items.Carrot,200)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Pumpkins,0,prev_time)
 quick_print(unlock_string)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Watering,3,prev_time)
@@ -135,8 +138,11 @@ quick_print(unlock_string)
 
 
 early_farming.trees_and_carrots_6b6(Items.Carrot,600)
+early_farm_end = get_time()
+early_farming_time = early_farm_end - early_farm_start
+total_early_farm += early_farming_time
 start_pumpkin = get_time()
-pumpkins.single_drone_pumpkin(Items.Pumpkin,3000)
+pumpkins.all_drones_pumpkins(Items.Pumpkin,3000)
 end_pumpkin = get_time()
 pumpkin_time = end_pumpkin - start_pumpkin
 total_pumpkin += total_pumpkin
@@ -148,13 +154,17 @@ quick_print(unlock_string)
 #####################
 
 start_poly = get_time()
-polyculture.multipoly_drones_hay(Items.Hay,1200)
+polyculture.hay_polyfarm(1200)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += total_poly
 
 start_poly = get_time()
-polyculture.single_drone_poly(Items.Carrot,1200)
+polyculture.new_multi_drones_poly(Items.Wood,100)
+end_poly = get_time()
+
+start_poly = get_time()
+polyculture.new_multi_drones_poly(Items.Carrot,1200)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += total_poly
@@ -162,7 +172,7 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Speed,4,prev_time)
 quick_print(unlock_string)
 
 start_pumpkin = get_time()
-pumpkins.single_drone_pumpkin(Items.Pumpkin,1000)
+pumpkins.all_drones_pumpkins(Items.Pumpkin,1000)
 end_pumpkin = get_time()
 pumpkin_time = end_pumpkin - start_pumpkin
 total_pumpkin += pumpkin_time
@@ -174,23 +184,26 @@ quick_print(unlock_string)
 #####################
 
 start_sunflower = get_time()
-sunflowers.run_sunflowers(1)
+sunflowers.multi_drones_sunflowers()
 end_sunflower = get_time()
 sunflower_time = end_sunflower - start_sunflower
 total_sunflower += sunflower_time
 
-# start_poly = get_time()
-# polyculture.single_drone_poly(Items.Wood,1600)
-# end_poly = get_time()
-# poly_time = end_poly - start_poly
-# total_poly += poly_time
+start_poly = get_time()
+polyculture.new_multi_drones_poly(Items.Wood,1600)
+end_poly = get_time()
+poly_time = end_poly - start_poly
+total_poly += poly_time
+unlock_string, prev_time = unlocking.try_ulock(Unlocks.Fertilizer,1,prev_time)
+quick_print(unlock_string)
+
 start_weird = get_time()
 mazes.weird_sub(350)
 end_weird = get_time()
 weird_time = end_weird - start_weird
 total_weird += weird_time
-unlock_string, prev_time = unlocking.try_ulock(Unlocks.Fertilizer,1,prev_time)
-quick_print(unlock_string)
+# unlock_string, prev_time = unlocking.try_ulock(Unlocks.Fertilizer,1,prev_time)
+# quick_print(unlock_string)
 
 start_weird = get_time()
 mazes.weird_sub(1350)
@@ -213,7 +226,7 @@ quick_print(unlock_string)
 #####################
 
 start_poly = get_time()
-polyculture.multipoly_drones_hay(Items.Hay,6100)
+polyculture.hay_polyfarm(6100)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -223,7 +236,7 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Trees,3,prev_time)
 quick_print(unlock_string)
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Wood,6300)
+polyculture.new_multi_drones_poly(Items.Wood,6300)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -231,7 +244,7 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Carrots,3,prev_time)
 quick_print(unlock_string)
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Wood,13000)
+polyculture.new_multi_drones_poly(Items.Wood,14000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -239,13 +252,13 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Watering,4,prev_time)
 quick_print(unlock_string)
 
 start_poly = get_time()
-polyculture.multipoly_drones_hay(Items.Hay,8000)
+polyculture.hay_polyfarm(8000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Carrot,10000)
+polyculture.new_multi_drones_poly(Items.Carrot,10000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -255,13 +268,13 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Pumpkins,2,prev_time)
 quick_print(unlock_string)
 
 start_sunflower = get_time()
-sunflowers.two_drones_sunflower()
+sunflowers.multi_drones_sunflowers()
 end_sunflower = get_time()
 sunflower_time = end_sunflower - start_sunflower
 total_sunflower += sunflower_time
 
 start_pumpkin = get_time()
-pumpkins.two_drones_pumpkin(8000)
+pumpkins.all_drones_pumpkins(Items.Pumpkin,8000)
 end_pumpkin = get_time()
 pumpkin_time = end_pumpkin - start_pumpkin
 total_pumpkin += pumpkin_time
@@ -273,7 +286,7 @@ quick_print(unlock_string)
 #####################
 
 start_pumpkin = get_time()
-pumpkins.two_drones_pumpkin(6500)
+pumpkins.all_drones_pumpkins(Items.Pumpkin,6500)
 end_pumpkin = get_time()
 pumpkin_time = end_pumpkin - start_pumpkin
 total_pumpkin += pumpkin_time
@@ -291,20 +304,18 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Dinosaurs,1,prev_time)
 quick_print(unlock_string)
 
 start_dino = get_time()
-dinos.dinos(10000)
+dinos(10000)
 end_dino = get_time()
 dino_time = end_dino - start_dino
 total_dinos += dino_time
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Polyculture,1,prev_time)
 quick_print(unlock_string)
 
-set_world_size(10)
 start_sunflower = get_time()
-sunflowers.two_drones_sunflower()
+sunflowers.multi_drones_sunflowers()
 end_sunflower = get_time()
 sunflower_time = end_sunflower - start_sunflower
 total_sunflower += sunflower_time
-set_world_size(12)
 
 start_cacti = get_time()
 cacti.multi_drones_cacti(84000)
@@ -317,7 +328,7 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Mazes,2,prev_time)
 quick_print(unlock_string)
 
 start_weird = get_time()
-mazes.weird_sub(10000)
+mazes.weird_sub(5000)
 end_weird = get_time()
 weird_time = end_weird - start_weird
 total_weird += weird_time
@@ -337,16 +348,14 @@ quick_print(unlock_string)
 #    drones = 8     #
 #####################
 
-set_world_size(10)
 start_sunflower = get_time()
-sunflowers.two_drones_sunflower()
+sunflowers.multi_drones_sunflowers()
 end_sunflower = get_time()
 sunflower_time = end_sunflower - start_sunflower
 total_sunflower += sunflower_time
-set_world_size(12)
 
 start_poly = get_time()
-polyculture.multipoly_drones_hay(Items.Hay,25000)
+polyculture.hay_polyfarm(25000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -354,7 +363,7 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Trees,4,prev_time)
 quick_print(unlock_string)
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Wood,65000)
+polyculture.new_multi_drones_poly(Items.Wood,65000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -364,7 +373,7 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Fertilizer,3,prev_time)
 quick_print(unlock_string)
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Wood,85000)
+polyculture.new_multi_drones_poly(Items.Wood,85000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -374,7 +383,7 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Carrots,4,prev_time)
 quick_print(unlock_string)
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Wood,165000)
+polyculture.new_multi_drones_poly(Items.Wood,165000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -382,19 +391,19 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Carrots,5,prev_time)
 quick_print(unlock_string)
 
 start_poly = get_time()
-polyculture.multipoly_drones_hay(Items.Hay,25000)
+polyculture.hay_polyfarm(25000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Wood,25000)
+polyculture.new_multi_drones_poly(Items.Wood,25000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Carrot,100000)
+polyculture.new_multi_drones_poly(Items.Carrot,100000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
@@ -404,26 +413,23 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Pumpkins,4,prev_time)
 quick_print(unlock_string)
 
 start_pumpkin = get_time()
-pumpkins.multidrone_pumpkin(Items.Pumpkin,65000)
+pumpkins.all_drones_pumpkins(Items.Pumpkin,65000)
 end_pumpkin = get_time()
 pumpkin_time = end_pumpkin - start_pumpkin
 total_pumpkin += pumpkin_time
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Expand,6,prev_time)
 quick_print(unlock_string)
-set_world_size(16)
 
 #####################
 # grid size = 16x16 #
 #####################
 
 #sub for multi drone sunflowers:
-#set_world_size(10)
 start_sunflower = get_time()
 sunflowers.multi_drones_sunflowers()
 end_sunflower = get_time()
 sunflower_time = end_sunflower - start_sunflower
 total_sunflower += sunflower_time
-#set_world_size(16)
 
 start_weird = get_time()
 mazes.weird_sub_multi_drones(85000,4)
@@ -443,20 +449,21 @@ quick_print(unlock_string)
 #####################
 
 start_poly = get_time()
-polyculture.multipoly_drones_hay(Items.Hay,50000)
+polyculture.hay_polyfarm(50000)
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
 
 start_poly = get_time()
-polyculture.multi_drones_poly(Items.Carrot,80000)
+polyculture.new_multi_drones_poly(Items.Carrot,80000) #from 80000 -> 450000
 end_poly = get_time()
 poly_time = end_poly - start_poly
 total_poly += poly_time
-unlock_string, prev_time = unlocking.try_ulock(Unlocks.Pumpkins,3,prev_time)
+# unlock_string, prev_time = unlocking.try_ulock(Unlocks.Pumpkins,5,prev_time)
+# quick_print(unlock_string)
 
 start_pumpkin = get_time()
-pumpkins.all_drones_pumpkins(Items.Pumpkin,200000)
+pumpkins.all_drones_pumpkins(Items.Pumpkin,200000) #from 200000 -> 900000
 end_pumpkin = get_time()
 pumpkin_time = end_pumpkin - start_pumpkin
 total_pumpkin += pumpkin_time
@@ -464,6 +471,8 @@ unlock_string, prev_time = unlocking.try_ulock(Unlocks.Cactus,1,prev_time)
 quick_print(unlock_string)
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Cactus,2,prev_time)
 quick_print(unlock_string)
+# unlock_string, prev_time = unlocking.try_ulock(Unlocks.Cactus,3,prev_time)
+# quick_print(unlock_string)
 
 start_sunflower = get_time()
 sunflowers.multi_drones_sunflowers()
@@ -507,11 +516,11 @@ total_cacti += cacti_time
 unlock_string, prev_time = unlocking.try_ulock(Unlocks.Dinosaurs,4,prev_time)
 quick_print(unlock_string)
 
-start_sunflower = get_time()
-sunflowers.multi_drones_sunflowers()
-end_sunflower = get_time()
-sunflower_time = end_sunflower - start_sunflower
-total_sunflower += sunflower_time
+# start_sunflower = get_time()
+# sunflowers.multi_drones_sunflowers()
+# end_sunflower = get_time()
+# sunflower_time = end_sunflower - start_sunflower
+# total_sunflower += sunflower_time
 
 start_cacti = get_time()
 cacti.multi_drones_cacti(440000)
@@ -528,19 +537,19 @@ quick_print(unlock_string)
 # total_sunflower += sunflower_time
 
 start_dino = get_time()
-dinos.dinos(2000000)
+dinos(2000000)
 end_dino = get_time()
 dino_time = end_dino - start_dino
 total_dinos += dino_time
 
 start_weird = get_time()
-mazes.weird_sub_multi_drones(300000,4)
+mazes.weird_sub_multi_drones(255000,4)
 end_weird = get_time()
 weird_time = end_weird - start_weird
 total_weird += weird_time
 
 start_maze = get_time()
-mazes.multi_drone_mazes(1000000,8)
+mazes.multi_drone_mazes(1000000,4)
 end_maze = get_time()
 maze_time = end_maze - start_maze
 total_maze += maze_time
@@ -550,9 +559,10 @@ quick_print(unlock_string)
 
 
 
+quick_print("Total time farming BEFORE polycultures:",timing.time_units(total_early_farm))
+quick_print("Total time farming Polycultures:",timing.time_units(total_poly))
 quick_print("Total time farming Sunflowers:",timing.time_units(total_sunflower))
 quick_print("Total time farming Pumpkins:",timing.time_units(total_pumpkin))
-quick_print("Total time farming Polycultures:",timing.time_units(total_poly))
 quick_print("Total time farming Weird Substance:",timing.time_units(total_weird))
 quick_print("Total time Doing Mazes:",timing.time_units(total_maze))
 quick_print("Total time farming Cacti:",timing.time_units(total_cacti))

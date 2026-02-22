@@ -1,5 +1,14 @@
+def generate_moves_quadrant(ws = get_world_size(),md = max_drones()):
+	nx = 1
+	while (nx * 2) * (nx * 2) <= md:
+		nx *= 2
+	ny = md // nx
 
-def generate_moves_quadrant(gsx,gsy):
+	# Quadrant dimensions
+	gsx = ws // nx  # width of quadrant
+	gsy = ws // ny  # height of quadrant
+
+	
 	moves = list()
 	if gsx >= gsy:
 		k=0
@@ -39,72 +48,39 @@ def generate_moves_quadrant(gsx,gsy):
 			moves.append(South)
 	return moves
 
-def generate_quadrant_coords(gsx,gsy,ws = get_world_size(), md = max_drones()):
-	coords = list()
-	coords.append((0,0))
-	if md == 2 and gsx >= gsy:
-		coords.append((0,ws/2))
-	elif md == 2 and gsx < gsy:
-		coords.append((ws/2,0))
-	if md == 4:
-		coords.append((0,ws/2))
-		coords.append((ws/2,ws/2))
-		coords.append((ws/2,0))
-	if md == 8 and gsx >= gsy:
-		coords.append((0,ws/4))
-		coords.append((0,ws/2))
-		coords.append((0,ws*3/4))
-		coords.append((ws/2,ws*3/4))
-		coords.append((ws/2,ws/2))
-		coords.append((ws/2,ws/4))
-		coords.append((ws/2,0))
-	if md == 8 and gsx < gsy:
-		coords.append((ws/4,0))
-		coords.append((ws/2,0))
-		coords.append((ws*3/4,0))
-		coords.append((ws*3/4,ws/2))
-		coords.append((ws/2,ws/2))
-		coords.append((ws/4,ws/2))
-		coords.append((0,ws/2))
-	if md == 16:
-		coords.append((0,ws/4))
-		coords.append((0,ws/2))
-		coords.append((0,ws*3/4))
-		coords.append((ws/4,0))
-		coords.append((ws/4,ws/4))
-		coords.append((ws/4,ws/2))
-		coords.append((ws/4,ws*3/4))
-		coords.append((ws/2,0))
-		coords.append((ws/2,ws/4))
-		coords.append((ws/2,ws/2))
-		coords.append((ws/2,ws*3/4))
-		coords.append((ws*3/4,0))
-		coords.append((ws*3/4,ws/4))
-		coords.append((ws*3/4,ws/2))
-		coords.append((ws*3/4,ws*3/4))
+def generate_quadrant_coords(ws=get_world_size(), md=max_drones()):
+	# Returns bottom-left (x,y) origins for md subgrids covering a ws x ws world.
+
+	# Assumptions:
+	#   - md is a power of two (<= 32)
+	#   - ws is one of: 6, 8, 12, 16, 32 (or any ws divisible by the chosen nx, ny)
+
+	# Strategy:
+	#   - Choose nx as the largest power of two such that nx*nx <= md
+	#   - ny = md // nx
+	#   - Tile the world into nx columns and ny rows
+	#   - Return coords in a serpentine ("snake") y-order per x-column
+
+	# Find nx = largest power of two where nx*nx <= md
+	nx = 1
+	while (nx * 2) * (nx * 2) <= md:
+		nx *= 2
+	ny = md // nx
+	gsx = ws // nx
+	gsy = ws // ny
+
+	coords = []
+	for ix in range(nx):
+		# Snake ordering in y
+		if ix % 2 == 0:
+			y_range = range(ny)			   # 0..ny-1
+		else:
+			y_range = range(ny - 1, -1, -1)   # ny-1..0
+
+		x0 = ix * gsx
+		for iy in y_range:
+			y0 = iy * gsy
+			coords.append((x0, y0))
+
 	return coords
 
-
-#testing stuff:
-# def task_wrapper(MOVES):
-# 	def task():
-# 		while True:
-# 			for dir in MOVES:
-# 				till()
-# 				move(dir)
-# 	return task
-
-# set_execution_speed(2)
-# set_world_size(12)
-# ws = get_world_size()
-# md = 8
-# from move_to import move_to
-# MOVES = generate_moves_quadrant(3,6)
-# COORDS = generate_quadrant_coords(3,6,ws,md)
-# quick_print(COORDS)
-# drones = []
-# for _ in range(len(COORDS)-1):
-# 	move_to(COORDS[_][0],COORDS[_][1])
-# 	drones.append(spawn_drone(task_wrapper(MOVES)))
-# move_to(COORDS[_+1][0],COORDS[_+1][1])
-# task_wrapper(MOVES)()

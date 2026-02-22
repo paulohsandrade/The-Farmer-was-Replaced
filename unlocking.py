@@ -106,3 +106,5 @@ unlock_levels = {
 	# 28 : 10.96 || Unlocks.Dinosaurs 5 -> Cactus: 2590000
 	# 28 : 30.71 || Unlocks.Mazes 4 -> Cactus: 432000
 # 33 : 17.56 || Unlocks.Leaderboard 1 -> Bone: 2000000, Gold: 1000000
+
+#Unlocks.Grass 5 -> Wood: 2500
